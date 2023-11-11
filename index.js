@@ -1,20 +1,21 @@
 import express from "express"
 
-const PORT = process.env.PORT ?? 3000
 const app = express()
+const PORT = 3000
 
-const url = "https://developers.teachable.com/v1/courses"
-const authorizationKey = "cXycM0ts1IRN7293bbH1M8F0NbhYRBsx"
+app.listen(PORT, () => {
+  console.log(`API listening on PORT ${PORT} `)
+})
 
 app.get("/", async (req, res) => {
   try {
     const fetchOptions = {
       headers: {
-        apiKey: authorizationKey,
+        apiKey: process.env.API_KEY,
       },
     }
 
-    const fetchResponse = await fetch(url, fetchOptions)
+    const fetchResponse = await fetch(process.env.URL, fetchOptions)
     const courses = await fetchResponse.json()
 
     res.json({ courses })
@@ -24,6 +25,4 @@ app.get("/", async (req, res) => {
   }
 })
 
-app.listen(PORT, function () {
-  console.log(`Example app listening on port ${PORT}...`)
-})
+module.exports = app
